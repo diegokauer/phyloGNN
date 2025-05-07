@@ -8,6 +8,7 @@ notebooks/
 output/
 phylo_gnn.egg-info/
 .idea/
+phylo_gnn/experiments/*.csv
 *.py[cod]
 *$py.class
 
