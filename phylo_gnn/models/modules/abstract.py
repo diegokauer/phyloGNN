@@ -16,7 +16,8 @@ class AbstractModel(torch.nn.Module):
             transformer = self.column_transformer[str(col_idx)]
             transformed_features.append(transformer(x, col_idx))
 
-        return torch.cat(transformed_features, dim=1)
+        x = torch.cat(transformed_features, dim=1)
+        return x
 
     def forward(self, x):
         pass
