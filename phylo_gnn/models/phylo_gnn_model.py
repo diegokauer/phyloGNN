@@ -108,9 +108,9 @@ class PhyloGNN:
         pass
 
 
-
-model = PhyloGNN()
-data = GraphDataFactory()
-subset_1 = data.construct_dataset(data.get_ids([1, 2, 3, 4]), cols=["bmi_zscore", 'Shannon_16S'], taxa_dataframes=[data.taxa_data_bacteria])
-subset_2 = data.construct_dataset(data.get_ids([5, 6, 7, 8]), cols=["bmi_zscore", 'Shannon_16S'], taxa_dataframes=[data.taxa_data_bacteria])
-model.train(data, train_dataset=subset_1, validation_dataset=subset_2)
+#
+# model = PhyloGNN()
+# data = GraphDataFactory()
+# subset_1 = data.construct_dataset(data.get_ids([1, 2, 3, 4]), cols=["bmi_zscore", 'Shannon_16S'], taxa_dataframes=[data.taxa_data_bacteria])
+# subset_2 = data.construct_dataset(data.get_ids([5, 6, 7, 8]), cols=["bmi_zscore", 'Shannon_16S'], taxa_dataframes=[data.taxa_data_bacteria])
+# model.train(data, train_dataset=subset_1, validation_dataset=subset_2)
