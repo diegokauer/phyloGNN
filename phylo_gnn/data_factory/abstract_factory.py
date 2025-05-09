@@ -4,6 +4,9 @@ from sklearn.model_selection import train_test_split
 
 from phylo_gnn import DATA_PATH
 
+if DATA_PATH is None:
+    DATA_PATH = ''
+
 
 class AbstractDataFactory:
     def __init__(
