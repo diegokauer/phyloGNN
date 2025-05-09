@@ -102,7 +102,22 @@ class PhyloGNN:
         )
 
     def predict(self, dataset):
-        pass
+        predictions = []
+        dataloader = DataLoader(dataset)
+        self.model.eval()
+
+        device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+
+        with torch.no_grad():
+            for batch in dataloader:
+                batch = batch.to(device)
+                out, _, _ = self.model(batch)  # Forward pass
+                out = out.squeeze()
+                pred = F.sigmoid(out).cpu()  # Store predictions (move to CPU)
+                predictions += pred.flatten().tolist()
+
+        return predictions
+
 
     def score(self, dataset):
         pass
