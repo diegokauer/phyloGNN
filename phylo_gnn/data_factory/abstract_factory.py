@@ -15,13 +15,14 @@ class AbstractDataFactory:
             count_path_bacteria="microbiote_data/lung/lung_16St_asv_table_all_samples.csv",
             taxa_path_fungi="microbiote_data/lung/lung_ITS_taxa_table_all_samples.csv",
             count_path_fungi="microbiote_data/lung/lung_ITS_asv_table_all_samples.csv",
+            delta_path="delta_16S_final.csv",
             **kwargs
     ):
         self.taxa_path_bacteria = os.path.join(DATA_PATH, taxa_path_bacteria)
         self.count_path_bacteria = os.path.join(DATA_PATH, count_path_bacteria)
         self.taxa_path_fungi = os.path.join(DATA_PATH, taxa_path_fungi)
         self.count_path_fungi = os.path.join(DATA_PATH, count_path_fungi)
-        self.delta_path = os.path.join(DATA_PATH, "delta_16S_final.csv")
+        self.delta_path = os.path.join(DATA_PATH, delta_path)
 
         # data tables
         self.taxa_data_bacteria = None

@@ -64,7 +64,7 @@ class PhyloGNN:
         else:
             self.model = None
 
-    def train(self, train_dataset, validation_dataset, epochs=1000, batch_size=4, lr=1e-3, weight_decay=1e-5):
+    def train(self, data, train_dataset, validation_dataset, epochs=1000, batch_size=4, lr=1e-3, weight_decay=1e-5):
         kwargs = {
             # Pre-processing
             "graph_transformers":  T.Compose([
@@ -72,8 +72,8 @@ class PhyloGNN:
             ]),
 
             # Model parameters based on dataset
-            "num_embeddings": train_dataset.node_n,
-            "graph_features": train_dataset.n_graph_features,
+            "num_embeddings": data.node_n,
+            "graph_features": data.n_graph_features,
         }
         self.kwargs.update(kwargs)
         if self.model is None:
