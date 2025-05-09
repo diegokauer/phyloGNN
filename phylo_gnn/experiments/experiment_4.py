@@ -24,9 +24,22 @@ graph_transformers = T.Compose([
     # T.VirtualNode(),
 ])
 
+cols = [
+    "Sex_M",
+    "age_group_5 to 8",
+    "age_group_Over 8",
+    "age_group_Under 5",
+    'zscore_label_Normal',
+    'zscore_label_Thin',
+    "Chao1_16S",
+    "Shannon_16S",
+    "Simpson_16S",
+    "Pielou_16S",
+]
+
 data = GraphDataFactory()
-train_dataset = data.construct_dataset(data.train, graph_transformer=graph_transformers)
-test_dataset = data.construct_dataset(data.test, graph_transformer=graph_transformers)
+train_dataset = data.construct_dataset(data.train, cols, graph_transformer=graph_transformers)
+test_dataset = data.construct_dataset(data.test, cols, graph_transformer=graph_transformers)
 
 model_class = DefaultGAT#DefaultPNADefaultGIN
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
@@ -48,7 +61,7 @@ column_transformer = {
 
 kwargs = {
     "column_transformer": column_transformer,
-    "graph_transformers": graph_transformers,
+    # "graph_transformers": graph_transformers,
     "aggregators": [MeanAggregation(), MaxAggregation(), MinAggregation(), StdAggregation()],
     "deg": PNAConv.get_degree_histogram(DataLoader(train_dataset)),
     "scalers": ["identity", "amplification", "attenuation", "linear"],
@@ -70,6 +83,8 @@ kwargs = {
     "graph_features": 10,
     "output_dim": 1,
 }
+
+print(data.node_n)
 
 model = model_class(**kwargs)
 # model.load_state_dict(torch.load("../../checkpoints/best_model_exp_4_0.9479.pt").state_dict())

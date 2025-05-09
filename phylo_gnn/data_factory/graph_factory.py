@@ -20,6 +20,7 @@ class GraphDataFactory(AbstractDataFactory):
         super().__init__(**kwargs)
 
         # Information about data_set
+        self.n_graph_features = 0
         self.node_n = 0
 
     def get_global_batch(self, use_asv):
@@ -40,7 +41,9 @@ class GraphDataFactory(AbstractDataFactory):
 
         return batch
 
-    def construct_dataset(self, df, graph_transformer=None, use_asv=False, taxa_dataframes=None):
+    def construct_dataset(self, df, cols, graph_transformer=None, use_asv=False, taxa_dataframes=None):
+        self.n_graph_features = len(cols)
+
         if taxa_dataframes is None:
             taxa_dataframes = [self.taxa_data_bacteria, self.taxa_data_fungi]
 
@@ -83,13 +86,13 @@ class GraphDataFactory(AbstractDataFactory):
             batch['sample_taxa2id'] = sample_taxa2id
             batch['coo_matrix'] = coo_matrix
 
-            datapoint = self.get_graph_features(row, batch, graph_transformer)
+            datapoint = self.get_graph_features(row, batch, graph_transformer, cols)
             assert datapoint.validate(), f'row {idx} is not valid'
             dataset.append(datapoint)
 
         return dataset
 
-    def get_graph_features(self, row, batch, graph_transformer):
+    def get_graph_features(self, row, batch, graph_transformer, cols):
         global_taxa2id = batch["global_taxa2id"]
         sample_id2taxa = batch["sample_id2taxa"]
         sample_taxa2id = batch["sample_taxa2id"]
@@ -114,20 +117,7 @@ class GraphDataFactory(AbstractDataFactory):
             edge_index=torch.tensor(coo_matrix),
             edge_attr=torch.tensor(edge_features, dtype=torch.float32),
             y=torch.tensor(row["Deterioration"], dtype=torch.float32),
-            graph_attr=torch.tensor(
-                [row[[
-                    "Sex_M",
-                    "age_group_5 to 8",
-                    "age_group_Over 8",
-                    "age_group_Under 5",
-                    'zscore_label_Normal',
-                    'zscore_label_Thin',
-                    "Chao1_16S",
-                    "Shannon_16S",
-                    "Simpson_16S",
-                    "Pielou_16S",
-                ]]],
-                dtype=torch.float32)
+            graph_attr=torch.tensor([row[cols]], dtype=torch.float32)
         )
 
         if graph_transformer:

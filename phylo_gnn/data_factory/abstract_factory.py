@@ -23,6 +23,7 @@ class AbstractDataFactory:
         # data tables
         self.taxa_data_bacteria = None
         self.taxa_data_fungi = None
+        self.dataframe = None
         self.train = None
         self.test = None
 
@@ -80,6 +81,7 @@ class AbstractDataFactory:
 
         self.taxa_data_bacteria = taxa_data_bacteria
         self.taxa_data_fungi = taxa_data_fungi
+        self.dataframe = merged_data
         self.train = merged_data[merged_data.split == 'train']
         self.test = merged_data[merged_data.split == 'test']
 
@@ -88,3 +90,9 @@ class AbstractDataFactory:
             return self.test
         elif split == 'train':
             return self.train
+
+    def get_ids(self, ids):
+        return self.dataframe.iloc[ids, :]
+
+    def print_cols(self):
+        print(self.dataframe.columns)

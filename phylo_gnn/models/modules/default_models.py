@@ -16,8 +16,6 @@ class DefaultModel(AbstractModel):
             act=kwargs["act"],
             **model_kwargs
         )
-        # for conv in self.conv_backbone.convs:
-        #     torch.nn.init.xavier_uniform(conv.eps)
         self.final_layer = final_layer(**kwargs)
 
         if embedding_state_dict:
